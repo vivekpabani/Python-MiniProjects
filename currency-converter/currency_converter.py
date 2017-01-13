@@ -11,6 +11,7 @@ __author__ = "vivek"
 
 
 import sys
+import requests
 
 
 def read_currency_codes(source_file):
@@ -47,3 +48,30 @@ def get_inputs():
         sys.exit(1)
 
     return from_code, to_code, amount 
+
+
+def get_convertion_rate(from_code, to_code, code_dict):
+    """
+    Get the conversion rate using input codes.
+    if invalid codes, return -1
+    if can't find conversion, return 0
+
+    :param from_code: code of from currency
+    :param to_code: code of to currency
+    :param code_dict: dictionary with currency codes.
+    :returns: if found, conversion rate. if invalid codes, return -1. if can't find conversion, return -1 
+    """"
+    codes = code_dict.keys()
+
+    if from_code not in codes or to_code not in codes:
+        return -1
+
+    url = "http://rate-exchange.appspot.com/currency?from=" + from_code + "&to=" + to_code 
+    response = requests.get(url) 
+    
+    if response.status_code != 200:
+        return 0
+
+    rate = float(response.json()['rate']) 
+
+    return rate

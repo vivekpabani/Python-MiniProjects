@@ -82,12 +82,10 @@ def main():
 
     source_file = "currencycodes.csv"
     code_dict = read_currency_codes(source_file)
-
     from_code, to_code, amount = get_inputs()
-
+    
     conversion_rate = get_convertion_rate(from_code, to_code, code_dict)
-
-
+    
     if conversion_rate == -1:
         print("Invalid currency code(s). Try again.")
     elif conversion_rate == 0:
@@ -98,7 +96,7 @@ def main():
         print("To        : " + to_code + " (" + code_dict[to_code] + ")")
         print("Rate      : " + str(conversion_rate))
         print("Amount    : " + str(amount))
-        print("Converted : " + str(amount*conversion_rate))
+        print("Converted : " + str(converted_amount))
          
 
 if __name__ == "__main__":

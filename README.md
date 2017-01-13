@@ -1,2 +1,2 @@
 # Python-MiniProjects
-Mini standalone projects/features implemented with Python.
+Mini standalone projects/features/problems/challenges implemented with Python.

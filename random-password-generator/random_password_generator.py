@@ -15,6 +15,7 @@ import getopt
 import string
 import random
 
+
 def get_arguments():
 
     arguments = sys.argv[1:]
@@ -34,6 +35,8 @@ def get_arguments():
         elif opt == "-l":
             try:
                 plen = int(arg)
+                if plen < 4:
+                    plen = 4
             except:
                 # invalid length value. default taken.
                 pass 
@@ -45,10 +48,32 @@ def get_arguments():
     return plen, uppercase, numbers
 
 
+def create_password(plen, uppercase, numbers):
+
+    password = list()
+
+    for i in range(plen):
+        password.append(random.choice(string.ascii_lowercase))
+
+    if numbers:
+        random_num = random.choice(range(1, int(plen/2)))
+        for i in range(random_num):
+            password[i] = random.choice(string.digits)
+
+    if uppercase:
+        random_num = random.choice(range(1, int(plen/2)))  
+        for i in range(random_num):
+            password[plen-i-1] = random.choice(string.ascii_uppercase)
+
+    random.shuffle(password)
+
+    return ''.join(password)
+
+
 def main():
 
     plen, uppercase, numbers = get_arguments()
-    print(plen, uppercase, numbers)
+    print("Generated Password : ", create_password(plen, uppercase, numbers))
 
 
 if __name__ == "__main__":

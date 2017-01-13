@@ -22,7 +22,7 @@ def read_currency_codes(source_file):
 
     code_dict = dict()
 
-    with open(filename) as f:
+    with open(source_file, encoding='utf-8') as f:
         data = f.readlines()
 
         for line in data:
@@ -39,13 +39,14 @@ def get_inputs():
 
     :returns: from_code, to_code, amount
     """ 
-    try: 
-        from_code = input("Enter the from_currency code : ").upper() 
-        to_code = input("Enter the to_currency code : ").upper() 
-        amount = int(input("Enter the amount : ").strip())
-    except:
-        print("Invalid input(s). Try again.")
-        sys.exit(1)
+     
+    from_code = str(input("Enter the from_currency code : ")).strip().upper() 
+    to_code = input("Enter the to_currency code : ").strip().upper() 
+    amount = input("Enter the amount : ").strip()
+    if amount:
+        amount = int(amount)
+    else:
+        amount = 1
 
     return from_code, to_code, amount 
 
@@ -60,13 +61,13 @@ def get_convertion_rate(from_code, to_code, code_dict):
     :param to_code: code of to currency
     :param code_dict: dictionary with currency codes.
     :returns: if found, conversion rate. if invalid codes, return -1. if can't find conversion, return -1 
-    """"
+    """
     codes = code_dict.keys()
 
     if from_code not in codes or to_code not in codes:
         return -1
 
-    url = "http://rate-exchange.appspot.com/currency?from=" + from_code + "&to=" + to_code 
+    url = "http://rate-exchange-1.appspot.com/currency?from=" + from_code + "&to=" + to_code 
     response = requests.get(url) 
     
     if response.status_code != 200:
@@ -75,3 +76,30 @@ def get_convertion_rate(from_code, to_code, code_dict):
     rate = float(response.json()['rate']) 
 
     return rate
+
+
+def main():
+
+    source_file = "currencycodes.csv"
+    code_dict = read_currency_codes(source_file)
+
+    from_code, to_code, amount = get_inputs()
+
+    conversion_rate = get_convertion_rate(from_code, to_code, code_dict)
+
+
+    if conversion_rate == -1:
+        print("Invalid currency code(s). Try again.")
+    elif conversion_rate == 0:
+        print("Unable to fetch the data. Try again later.")
+    else:
+        converted_amount = amount * conversion_rate
+        print("From      : " + from_code + " (" + code_dict[from_code] + ")")
+        print("To        : " + to_code + " (" + code_dict[to_code] + ")")
+        print("Rate      : " + str(conversion_rate))
+        print("Amount    : " + str(amount))
+        print("Converted : " + str(amount*conversion_rate))
+         
+
+if __name__ == "__main__":
+    main()

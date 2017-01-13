@@ -31,6 +31,9 @@ def int_value(in_char):
 
 
 def has_valid_roman_chars(in_string):
+    """
+    check if string has valid roman chars
+    """
 
     valid_chars = ['I', 'V', 'X', 'L', 'C', 'D', 'M']
     valid = True
@@ -43,6 +46,9 @@ def has_valid_roman_chars(in_string):
 
 
 def has_multiple_DLV(in_st):
+    """
+    multiple D, L, V are not allowed in one numreal.
+    """ 
 
     # char frequency in the string
     counter = dict(Counter(in_st))
@@ -58,6 +64,9 @@ def has_multiple_DLV(in_st):
 
 
 def is_valid_subtractive_notation(curr_ch, next_ch):
+    """
+    not all digits can be used in subtractive notion.
+    """
 
     # (key, valuers) pairs, where key can only be followed by one of its values
     # to make a subtractive form.
@@ -70,6 +79,10 @@ def is_valid_subtractive_notation(curr_ch, next_ch):
 
 
 def roman_numeral_from_string(numeral):
+    """
+    converts from string numeral to int value.
+    returns None if not valid string.
+    """
 
     # check if string empty, or has invalid chars.
     if not numeral or not has_valid_roman_chars(numeral):

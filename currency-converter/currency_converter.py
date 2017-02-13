@@ -2,8 +2,7 @@
 
 """
 Description:
-Take roman numeral as a string and return it as an integer.
-If the string is not valid return None.
+Convert amount between two currencies with current rates fetched using API.
 
 """
 __author__ = "vivek"
